@@ -1,100 +1,72 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
+import { useEffect, useRef, useState } from 'react'
 
-gsap.registerPlugin(ScrollTrigger)
-
-type ReelData = {
+type ReelProps = {
   src: string
-  title: string
 }
 
-export default function Reel({ reel }: { reel: ReelData }) {
-  const textRef = useRef<HTMLDivElement>(null)
+export default function Reel({ src }: ReelProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [inFocus, setInFocus] = useState(false)
+  const [progress, setProgress] = useState(0)
 
+  // Scroll-based focus detection
   useEffect(() => {
-    let activeVideo: HTMLVideoElement | null = null
+    if (!containerRef.current) return
 
-    const frames = document.querySelectorAll<HTMLElement>('.reel-frame')
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInFocus(entry.intersectionRatio > 0.6)
+      },
+      {
+        threshold: [0, 0.6, 1],
+      }
+    )
 
-    frames.forEach((frame) => {
-      const video = frame.querySelector<HTMLVideoElement>('video')
-      if (!video) return
+    observer.observe(containerRef.current)
 
-      ScrollTrigger.create({
-        trigger: frame,
-        start: 'top 60%',
-        end: 'bottom 40%',
-
-        onEnter: () => {
-          frame.classList.add('is-active')
-
-          if (activeVideo && activeVideo !== video) {
-            activeVideo.currentTime = 0
-          }
-
-          activeVideo = video
-
-          const p = video.play()
-          if (p) p.catch(() => { })
-        },
-
-        onEnterBack: () => {
-          frame.classList.add('is-active')
-
-          if (activeVideo && activeVideo !== video) {
-            activeVideo.currentTime = 0
-          }
-
-          activeVideo = video
-
-          const p = video.play()
-          if (p) p.catch(() => { })
-        },
-
-        onLeave: () => {
-          frame.classList.remove('is-active')
-        },
-
-        onLeaveBack: () => {
-          frame.classList.remove('is-active')
-        },
-      })
-    })
+    return () => observer.disconnect()
   }, [])
 
+  const togglePlay = () => {
+    if (!videoRef.current) return
 
+    // Pause other videos
+    document.querySelectorAll('video').forEach((v) => {
+      if (v !== videoRef.current) v.pause()
+    })
 
+    if (videoRef.current.paused) {
+      videoRef.current.play()
+    } else {
+      videoRef.current.pause()
+    }
+  }
 
   return (
-    <section className="reel-split focus-section">
-      <div ref={textRef} className="reel-text">
-        <span className="chapter">REEL — 01</span>
-        <h2>
-          Editing
-          <span> as storytelling</span>
-        </h2>
-
-        <p>
-          A curated selection of cinematic edits focused on rhythm,
-          emotion, and visual pacing.
-        </p>
+    <div
+      ref={containerRef}
+      className={`reel ${inFocus ? 'reel-focus' : 'reel-blur'}`}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        playsInline
+        muted
+        preload="none"
+        onClick={togglePlay}
+        onTimeUpdate={() => {
+          if (!videoRef.current) return
+          const value =
+            videoRef.current.currentTime / videoRef.current.duration
+          setProgress(value || 0)
+        }}
+      />
+      <div className="reel-progress">
+        <span style={{ width: `${progress * 100}%` }} />
       </div>
-
-      <div className="reel-media">
-        <video
-          src={reel.src}
-          muted
-          loop
-          playsInline
-          preload="none"
-        />
-
-
-      </div>
-    </section>
+    </div>
   )
 }

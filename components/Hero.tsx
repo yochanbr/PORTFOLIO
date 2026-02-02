@@ -109,7 +109,7 @@ const Hero: () => React.ReactElement = () => {
 
 
   return (
-    <section className="hero" onMouseMove={handleMouseMove}>
+<section className="hero mobile-intro" onMouseMove={handleMouseMove}>
       <div ref={lightRef} className="hero-spotlight" />
       <div
         className="status-indicator"

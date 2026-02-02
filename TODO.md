@@ -1,0 +1,4 @@
+- [x] Update components/mobile/MobileHeader.tsx to static version with "YOCHAN" and "● Live"
+- [x] Fix MobilePage.tsx to remove status prop from MobileHeader
+- [x] Add .mobile-topbar CSS styles to styles/sections.css
+- [ ] Verify the changes render correctly
