@@ -33,8 +33,8 @@ export default function Projects() {
       <div className="project">
         <h2>Silent Cities</h2>
         <p>
-          A short documentary exploring absence, space, and memory.
-        </p>
+          A short documentary exploring absence, space, and memory made @tushar.
+        </p> 
         <video
           src="/doc.mp4"
           autoPlay
