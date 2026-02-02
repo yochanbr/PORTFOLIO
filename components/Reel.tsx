@@ -90,7 +90,7 @@ export default function Reel({ reel }: { reel: ReelData }) {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
         />
 
 

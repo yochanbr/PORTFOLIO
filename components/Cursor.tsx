@@ -3,6 +3,10 @@
 import { useEffect, useRef } from 'react'
 
 export default function Cursor() {
+  if (typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches) {
+    return null
+  }
+
   const cursorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

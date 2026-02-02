@@ -41,6 +41,7 @@ export default function Projects() {
           muted
           loop
           playsInline
+          preload="none"
         />
       </div>
     </section>

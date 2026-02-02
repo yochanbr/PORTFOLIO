@@ -31,26 +31,28 @@ export default function Contact() {
 
       <h2>Let’s make something that lasts.</h2>
 
-      <a className="email" href="mailto:yochanbr@gmail.com">
-        yochanbr@gmail.com
-      </a>
-
-      <div className="socials">
-        <a
-          href="https://instagram.com/yochxn.__"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Instagram
+      <div className="contact-actions">
+        <a className="email" href="mailto:yochanbr@gmail.com">
+          yochanbr@gmail.com
         </a>
 
-        <a
-          href="https://github.com/noxzplayz"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub
-        </a>
+        <div className="socials">
+          <a
+            href="https://instagram.com/yochxn.__"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+          </a>
+
+          <a
+            href="https://github.com/noxzplayz"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+        </div>
       </div>
     </section>
   )
