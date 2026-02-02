@@ -9,34 +9,34 @@ type ReelProps = {
 export default function Reel({ src }: ReelProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const [inFocus, setInFocus] = useState(false)
-  const [progress, setProgress] = useState(0)
+  const [isFocused, setIsFocused] = useState(false)
 
-  // Scroll-based focus detection
+  // Auto play / pause on focus
   useEffect(() => {
-    if (!containerRef.current) return
+    if (!containerRef.current || !videoRef.current) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInFocus(entry.intersectionRatio > 0.6)
+        if (!videoRef.current) return
+
+        if (entry.intersectionRatio > 0.65) {
+          videoRef.current.play().catch(() => {})
+          setIsFocused(true)
+        } else {
+          videoRef.current.pause()
+          setIsFocused(false)
+        }
       },
-      {
-        threshold: [0, 0.6, 1],
-      }
+      { threshold: [0, 0.65, 1] }
     )
 
     observer.observe(containerRef.current)
-
     return () => observer.disconnect()
   }, [])
 
+  // Tap to toggle (mobile friendly)
   const togglePlay = () => {
     if (!videoRef.current) return
-
-    // Pause other videos
-    document.querySelectorAll('video').forEach((v) => {
-      if (v !== videoRef.current) v.pause()
-    })
 
     if (videoRef.current.paused) {
       videoRef.current.play()
@@ -48,25 +48,16 @@ export default function Reel({ src }: ReelProps) {
   return (
     <div
       ref={containerRef}
-      className={`reel ${inFocus ? 'reel-focus' : 'reel-blur'}`}
+      className={`reel ${isFocused ? 'reel-focus' : 'reel-dim'}`}
     >
       <video
         ref={videoRef}
         src={src}
-        playsInline
         muted
+        playsInline
         preload="none"
         onClick={togglePlay}
-        onTimeUpdate={() => {
-          if (!videoRef.current) return
-          const value =
-            videoRef.current.currentTime / videoRef.current.duration
-          setProgress(value || 0)
-        }}
       />
-      <div className="reel-progress">
-        <span style={{ width: `${progress * 100}%` }} />
-      </div>
     </div>
   )
 }

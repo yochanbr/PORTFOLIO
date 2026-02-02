@@ -99,12 +99,7 @@ body.show-native-cursor .cursor {
   opacity: 0;
 }
 
-/* Hide cursor on touch devices */
-@media (hover: none) {
-  .cursor {
-    display: none;
-  }
-}
+
 
 a,
 .status-dot.playing,
@@ -376,26 +371,37 @@ body.theme-phonk #theme-symbols::before {
 }
 
 /* ===============================
-   MOBILE REEL LAYOUT FIX
+   REEL — DESKTOP & MOBILE SAFE
 ================================ */
+.reel {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 6rem;
+}
+
+.reel video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  display: block;
+  background: #000;
+  border-radius: 18px;
+}
+
+/* Focus feel (SAFE) */
+.reel-focus {
+  opacity: 1;
+}
+
+.reel-dim {
+  opacity: 0.4;
+}
+
+/* Mobile tweaks */
 @media (max-width: 768px) {
   .reel {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto 4.5rem;
-    display: block;
-    transform: none; /* IMPORTANT */
-  }
-
-  .reel video {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 9 / 16;
-    object-fit: cover;
-    border-radius: 16px;
-    background: #000;
+    margin-bottom: 4.5rem;
   }
 }
 
@@ -465,5 +471,35 @@ body.theme-phonk #theme-symbols::before {
 
   section {
     overflow: visible;
+  }
+}
+
+/* ===============================
+   DESKTOP LAYOUT — MOBILE REFRAME
+================================ */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+  }
+
+  section {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .hero {
+    padding-top: 5rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 9vw, 3.6rem);
+    line-height: 1.05;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    max-width: 28ch;
+    opacity: 0.65;
   }
 }
