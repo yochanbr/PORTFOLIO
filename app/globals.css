@@ -376,22 +376,26 @@ body.theme-phonk #theme-symbols::before {
 }
 
 /* ===============================
-   MOBILE REEL VISUALS
+   MOBILE REEL LAYOUT FIX
 ================================ */
 @media (max-width: 768px) {
   .reel {
-    margin-bottom: 4.5rem;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 4.5rem;
+    display: block;
+    transform: none; /* IMPORTANT */
   }
 
   .reel video {
+    display: block;
     width: 100%;
+    height: auto;
     aspect-ratio: 9 / 16;
+    object-fit: cover;
     border-radius: 16px;
-    background: black;
-  }
-
-  .reel video:active {
-    transform: scale(0.985);
+    background: #000;
   }
 }
 
@@ -426,23 +430,15 @@ body.theme-phonk #theme-symbols::before {
 
 
 /* ===============================
-   SCROLL-BASED REEL FOCUS
+   SAFE MOBILE FOCUS FADE
 ================================ */
 @media (max-width: 768px) {
-  .reel {
-    transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s ease;
-  }
-
   .reel-focus {
     opacity: 1;
-    filter: blur(0);
-    transform: scale(1);
   }
 
   .reel-blur {
-    opacity: 0.45;
-    filter: blur(1.5px);
-    transform: scale(0.98);
+    opacity: 0.4;
   }
 }
 
@@ -465,5 +461,9 @@ body.theme-phonk #theme-symbols::before {
     width: 0%;
     background: rgba(255, 255, 255, 0.8);
     transition: width 0.15s linear;
+  }
+
+  section {
+    overflow: visible;
   }
 }
