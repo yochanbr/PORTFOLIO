@@ -70,11 +70,21 @@ export default function ReelStrip() {
                 end: 'bottom 40%',
                 onEnter: () => {
                     frame.classList.add('is-active')
-                    video.play()
+                    const playPromise = video.play()
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {
+                            // Silently handle interrupted play requests
+                        })
+                    }
                 },
                 onEnterBack: () => {
                     frame.classList.add('is-active')
-                    video.play()
+                    const playPromise = video.play()
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {
+                            // Silently handle interrupted play requests
+                        })
+                    }
                 },
                 onLeave: () => {
                     frame.classList.remove('is-active')

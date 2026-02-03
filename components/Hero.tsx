@@ -40,7 +40,8 @@ const detectTheme = (title?: string, artist?: string) => {
 
 const Hero: () => React.ReactElement = () => {
   const titleRef = useRef<HTMLHeadingElement>(null)
-  const textRef = useRef<HTMLParagraphElement>(null)
+  const roleRef = useRef<HTMLSpanElement>(null)
+  const taglineRef = useRef<HTMLSpanElement>(null)
   const lightRef = useRef<HTMLDivElement>(null)
 
   const nowPlaying = useNowPlaying()
@@ -54,9 +55,15 @@ const Hero: () => React.ReactElement = () => {
     )
 
     gsap.fromTo(
-      textRef.current,
+      roleRef.current,
       { y: 60, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, delay: 0.5, ease: 'power4.out' }
+      { y: 0, opacity: 1, duration: 1.0, delay: 0.35, ease: 'power4.out' }
+    )
+
+    gsap.fromTo(
+      taglineRef.current,
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.9, delay: 0.6, ease: 'power4.out' }
     )
   }, [])
 
@@ -65,15 +72,35 @@ const Hero: () => React.ReactElement = () => {
   }, [waka.cooking])
 
   useEffect(() => {
-    if (!nowPlaying.isPlaying) return
-
-    const theme = detectTheme(nowPlaying.title, nowPlaying.artist)
-
     document.body.classList.remove('theme-love', 'theme-phonk')
 
-    if (theme === 'love') document.body.classList.add('theme-love')
-    if (theme === 'phonk') document.body.classList.add('theme-phonk')
-  }, [nowPlaying.isPlaying])
+    if (nowPlaying.isPlaying) {
+      const theme = detectTheme(nowPlaying.title, nowPlaying.artist)
+
+      if (theme === 'love') document.body.classList.add('theme-love')
+      if (theme === 'phonk') document.body.classList.add('theme-phonk')
+    }
+  }, [nowPlaying.isPlaying, nowPlaying.title, nowPlaying.artist])
+
+  // Title fade on scroll — subtle focus shift as user scrolls past hero
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const onScroll = () => {
+      if (!titleRef.current) return
+      const scrolled = window.scrollY || window.pageYOffset
+      const threshold = Math.min(window.innerHeight * 0.16, 160)
+      const t = Math.min(1, scrolled / threshold)
+      const opacity = Math.max(0.5, 1 - t * 0.5)
+      titleRef.current.style.opacity = String(opacity)
+      if (roleRef.current) roleRef.current.style.opacity = String(Math.max(0.6, 1 - t * 0.6))
+      if (taglineRef.current) taglineRef.current.style.opacity = String(Math.max(0.6, 1 - t * 0.6))
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!lightRef.current) return
@@ -157,10 +184,10 @@ const Hero: () => React.ReactElement = () => {
 
 
       <h1 ref={titleRef}>YOCHAN</h1>
-      <p ref={textRef}>
-        Cinematic Video Editor<br />
-        Rhythm. Emotion. Story.
-      </p>
+      <div className="hero-meta">
+        <span ref={roleRef} className="hero-role">Cinematic Video Editor</span>
+        <span ref={taglineRef} className="hero-tagline">Rhythm. Emotion. Story.</span>
+      </div>
     </section>
   )
 }

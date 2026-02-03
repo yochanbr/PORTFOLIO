@@ -29,12 +29,38 @@
   padding: 120px 60px;
 }
 
+@media (max-width: 768px) {
+  .main {
+    padding: 60px 24px;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .main {
+    padding: 80px 40px;
+  }
+}
+
 .intro {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
   gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .intro {
+    gap: 16px;
+    width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .intro {
+    gap: 20px;
+  }
 }
 
 .intro h1 {
@@ -47,12 +73,45 @@
   color: var(--text-primary);
 }
 
+@media (max-width: 768px) {
+  .intro h1 {
+    max-width: 100%;
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: -1.6px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .intro h1 {
+    max-width: 100%;
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
 .intro p {
   max-width: 440px;
   font-size: 18px;
   line-height: 32px;
   text-wrap: balance;
   color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .intro p {
+    max-width: 100%;
+    font-size: 15px;
+    line-height: 26px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .intro p {
+    max-width: 100%;
+    font-size: 16px;
+    line-height: 28px;
+  }
 }
 
 .intro a {
@@ -69,6 +128,20 @@
   font-size: 14px;
 }
 
+@media (max-width: 768px) {
+  .ctas {
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ctas {
+    max-width: 100%;
+  }
+}
+
 .ctas a {
   display: flex;
   justify-content: center;
@@ -81,6 +154,23 @@
   cursor: pointer;
   width: fit-content;
   font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .ctas a {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0 12px;
+    font-size: 13px;
+    flex: 1;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ctas a {
+    height: 44px;
+    padding: 0 14px;
+  }
 }
 
 a.primary {
