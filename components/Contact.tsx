@@ -32,8 +32,8 @@ export default function Contact() {
       <h2>Let’s make something that lasts.</h2>
 
       <div className="contact-actions">
-        <a className="email" href="mailto:yochanbr@gmail.com">
-          yochanbr@gmail.com
+        <a className="email" href="mailto:contact@yochan.site">
+          contact@yochan.site
         </a>
 
         <div className="socials">
