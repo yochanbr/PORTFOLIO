@@ -46,7 +46,7 @@ export default function Contact() {
           </a>
 
           <a
-            href="https://github.com/noxzplayz"
+            href="https://github.com/yochanbr"
             target="_blank"
             rel="noopener noreferrer"
           >
